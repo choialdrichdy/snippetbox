@@ -28,7 +28,6 @@ func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 	params := httprouter.ParamsFromContext(r.Context())
 	id, err := strconv.Atoi(params.ByName("id"))
 	if err != nil || id < 1 {
-		// http.NotFound(w, r)
 		app.notFound(w)
 		return
 	}
@@ -57,27 +56,19 @@ func (app *application) snippetCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 type snippetCreateForm struct {
-	Title   string
-	Content string
-	Expires string
-	validator.Validator
+	Title               string `form:"title"`
+	Content             string `form:"content"`
+	Expires             string `form:"expires"`
+	validator.Validator `form:"-"`
 }
 
 func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request) {
-
-	err := r.ParseForm()
+	var form snippetCreateForm
+	err := app.decodePostForm(r, &form)
 	if err != nil {
 		app.clientError(w, http.StatusBadRequest)
 		return
 	}
-
-	form := snippetCreateForm{
-		Title:   r.PostForm.Get("title"),
-		Content: r.PostForm.Get("content"),
-		Expires: r.PostForm.Get("expires"),
-	}
-
-	// fieldErrors := make(map[string]string)
 
 	form.CheckField(validator.NotBlank(form.Title), "title", "This field cannot be blank")
 	form.CheckField(validator.MaxChars(form.Title, 100), "title", "This field cannot be more than 100 characters long")
