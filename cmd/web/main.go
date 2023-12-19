@@ -8,6 +8,7 @@ import (
 	"os"
 	"text/template"
 
+	"github.com/go-playground/form/v4"
 	_ "modernc.org/sqlite"
 	"snippetbox.aldrich.com/internal/models"
 )
@@ -16,6 +17,7 @@ type application struct {
 	logger        *slog.Logger
 	snippets      *models.SnippetModel
 	templateCache map[string]*template.Template
+	formDecoder   *form.Decoder
 }
 
 func main() {
@@ -30,6 +32,7 @@ func main() {
 		logger.Error(err.Error())
 		os.Exit(1)
 	}
+	defer db.Close()
 
 	templateCache, err := newTemplateCache()
 	if err != nil {
@@ -37,11 +40,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	defer db.Close()
+	formDecoder := form.NewDecoder()
+
 	app := &application{
 		logger:        logger,
 		snippets:      &models.SnippetModel{DB: db},
 		templateCache: templateCache,
+		formDecoder:   formDecoder,
 	}
 
 	logger.Info("starting server", slog.Any("addr", *addr))
