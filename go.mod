@@ -3,11 +3,17 @@ module snippetbox.aldrich.com
 go 1.21.5
 
 require (
-	github.com/dustin/go-humanize v1.0.1 // indirect
+	github.com/alexedwards/scs/sqlite3store v0.0.0-20231113091146-cef4b05350c8
+	github.com/alexedwards/scs/v2 v2.7.0
 	github.com/go-playground/form/v4 v4.2.1
+	github.com/julienschmidt/httprouter v1.3.0
+	github.com/justinas/alice v1.2.0
+	modernc.org/sqlite v1.28.0
+)
+
+require (
+	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/google/uuid v1.3.0 // indirect
-	github.com/julienschmidt/httprouter v1.3.0 // indirect
-	github.com/justinas/alice v1.2.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
@@ -22,7 +28,6 @@ require (
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.7.2 // indirect
 	modernc.org/opt v0.1.3 // indirect
-	modernc.org/sqlite v1.28.0 // indirect
 	modernc.org/strutil v1.1.3 // indirect
 	modernc.org/token v1.0.1 // indirect
 )
