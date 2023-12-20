@@ -74,26 +74,8 @@ func (m *UserModel) Authenticate(email string, password string) (int, error) {
 }
 
 func (m *UserModel) Exists(id int) (bool, error) {
-	// stmt := `SELECT id, title, content, created, expires FROM snippets WHERE expires > DATETIME('now') ORDER BY id DESC LIMIT 10`
-	// rows, err := m.DB.Query(stmt)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// defer rows.Close()
-	// var snippets []Snippet
-
-	// for rows.Next() {
-	// 	var s Snippet
-	// 	err = rows.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// 	snippets = append(snippets, s)
-	// }
-
-	// if err = rows.Err(); err != nil {
-	// 	return nil, err
-	// }
-
-	return false, nil
+	var exists bool
+	stmt := `SELECT EXISTS(SELECT true FROM users where id = ?)`
+	err := m.DB.QueryRow(stmt, id).Scan(&exists)
+	return exists, err
 }
