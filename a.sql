@@ -17,6 +17,14 @@ CREATE TABLE sessions (
 
 CREATE INDEX sessions_expiry_idx ON sessions (expiry);
 
+CREATE TABLE users (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    hashed_password CHAR(60) NOT NULL,
+    created DATETIME NOT NULL
+);
+
 INSERT INTO snippets (title, content, created, expires) VALUES (
     'An old silent pond',
     'An old silent pond...
